@@ -6,6 +6,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'sdfg345'
 
 
+
+
 connection = sqlite3.connect('database.db')
 
 c = connection.cursor()
@@ -23,8 +25,7 @@ def get_db_connection():
     return conn
 
 
-hashids = Hashids(min_length=4, salt='sdfg345')
-
+hashids = Hashids(min_length=4, salt=app.config['SECRET_KEY'])
 
 
 @app.route('/', methods=('GET', 'POST'))
@@ -86,3 +87,6 @@ def stats():
         urls.append(url)
 
     return render_template('stats.html', urls=urls)
+  
+if __name__ == '__main__':
+    app.run(debug=True)
